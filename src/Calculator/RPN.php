@@ -45,10 +45,10 @@ class RPN
 
             $operand = array_pop($this->operand_stack);
             switch($operator) {
-                case self::OPERATOR_ADD:        $this->result += $operand; break;
-                case self::OPERATOR_SUBTRACT:   $this->result -= $operand; break;
-                case self::OPERATOR_MULTIPLY:   $this->result *= $operand; break;
-                case self::OPERATOR_DIVIDE:     $this->result /= $operand; break;
+                case self::OPERATOR_ADD:        $this->result = $operand + $this->result; break;
+                case self::OPERATOR_SUBTRACT:   $this->result = $operand - $this->result; break;
+                case self::OPERATOR_MULTIPLY:   $this->result = $operand * $this->result; break;
+                case self::OPERATOR_DIVIDE:     $this->result = $operand / $this->result; break;
             }
         }
 
