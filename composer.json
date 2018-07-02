@@ -1,8 +1,23 @@
 {
+    "name": "cykirsch/rpn-calculator-php",
+    "description": "Reverse Polish Notation calculator written in PHP.",
+    "type": "project",
+    "homepage": "https://github.com/cykirsch/rpn-calculator-php",
+    "authors": [
+        {
+            "name": "Cy Kirsch",
+            "email": "cykirsch@gmail.com"
+        }
+    ],
     "require": {
         "php": "^7.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
     }
 }
