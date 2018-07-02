@@ -32,7 +32,7 @@ while (true) {
                 break;
 
             default:
-                    echo $rpn->operand($input) . "\n";
+                echo $rpn->operand($input) . "\n";
         }
     } catch (InvalidInputException $e) {
         echo $e->getMessage() . "\n";

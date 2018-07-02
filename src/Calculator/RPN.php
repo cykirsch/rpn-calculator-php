@@ -12,7 +12,6 @@ class RPN
     const OPERATOR_DIVIDE = '/';
     // TODO support alternatives like x and ÷
 
-    private $result;
     private $operand_stack;
 
     public function __construct()
@@ -22,7 +21,6 @@ class RPN
 
     public function reset()
     {
-        $this->result = null;
         $this->operand_stack = [];
     }
 
@@ -39,20 +37,20 @@ class RPN
     public function operator(string $operator)
     {
         if ($this->isEnoughOperands()) {
-            if ($this->result === null) {
-                $this->result = array_pop($this->operand_stack);
-            }
+            $right = array_pop($this->operand_stack);
+            $left = array_pop($this->operand_stack);
 
-            $operand = array_pop($this->operand_stack);
             switch($operator) {
-                case self::OPERATOR_ADD:        $this->result = $operand + $this->result; break;
-                case self::OPERATOR_SUBTRACT:   $this->result = $operand - $this->result; break;
-                case self::OPERATOR_MULTIPLY:   $this->result = $operand * $this->result; break;
-                case self::OPERATOR_DIVIDE:     $this->result = $operand / $this->result; break;
+                case self::OPERATOR_ADD:        $result = $left + $right; break;
+                case self::OPERATOR_SUBTRACT:   $result = $left - $right; break;
+                case self::OPERATOR_MULTIPLY:   $result = $left * $right; break;
+                case self::OPERATOR_DIVIDE:     $result = $left / $right; break;
             }
-        }
 
-        return round($this->result, 10);
+            array_push($this->operand_stack, $result);
+
+            return round($result, 10);
+        }
     }
 
     /**
@@ -63,12 +61,8 @@ class RPN
      */
     private function isEnoughOperands() : bool
     {
-        if ($this->result === null && count($this->operand_stack) < 2) {
-            throw new InvalidInputException("Cannot accept an operator before there are at least two operands.");
-        }
-
-        if ($this->result !== null && count($this->operand_stack) < 1) {
-            throw new InvalidInputException("Need at least one more operand before accepting an operator.");
+        if (count($this->operand_stack) < 2) {
+            throw new InvalidInputException("Please provide at least one more operand before an operator.");
         }
 
         return true;
@@ -82,8 +76,7 @@ class RPN
     private function isValidOperand($operand) : bool
     {
         if (!is_numeric($operand)) {
-            $current = $this->result === null ? 'empty' : (string) $this->result;
-            throw new InvalidInputException("'$operand' is not a valid arithmetic operand. The current result is still $current.");
+            throw new InvalidInputException("'$operand' is not a valid number.");
         }
 
         return true;
