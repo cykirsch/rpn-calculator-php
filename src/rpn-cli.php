@@ -14,15 +14,18 @@ while (true) {
 
     try {
         switch ($input) {
-            case "\n":
-            case "\r":
-            case "\r\n":
+            case '':
                 continue;
 
             case 'Q':
             case 'QUIT':
             case 'EXIT':
                 exit("\n");
+
+            case 'RESET':
+            case 'CLEAR':
+                $rpn->reset();
+                break;
 
             case RPN::OPERATOR_ADD:
             case RPN::OPERATOR_SUBTRACT:
